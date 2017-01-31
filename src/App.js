@@ -2,54 +2,69 @@ import React, {Component} from 'react';
 import './css/pure-min.css';
 import './css/side-menu.css';
 import $ from 'jquery';
+import InputCustomizado from './components/Input.component';
+import Submit from './components/Submit.component';
+import {FormularioAutor,TabelaAutores} from './components/Submit.component';
 
 class App extends Component {
 
   constructor() {
     super();
-    this.state = { lista: [], nome:'', email:'', senha:''};
-    this.enviaForm = this.enviaForm.bind(this);
-    this.setNome = this.setNome.bind(this);
-    this.setEmail = this.setEmail.bind(this);
-    this.setSenha = this.setSenha.bind(this);
+    this.state = {
+      lista: [],
+      nome: '',
+      email: '',
+      senha: ''
+    };
+    this.enviaForm = this
+      .enviaForm
+      .bind(this);
+    this.setNome = this
+      .setNome
+      .bind(this);
+    this.setEmail = this
+      .setEmail
+      .bind(this);
+    this.setSenha = this
+      .setSenha
+      .bind(this);
   }
 
-  componentWillMount(){
+  componentWillMount() {
     $.ajax({
-      url:"http://cdc-react.herokuapp.com/api/autores",
+      url: "http://cdc-react.herokuapp.com/api/autores",
       dataType: 'json',
-      success:resposta =>{
-        this.setState({lista:resposta});
+      success: resposta => {
+        this.setState({lista: resposta});
       }
     });
   }
   //cdc-react.herokuapp.com/api/autores
-  enviaForm(evento){
+  enviaForm(evento) {
     evento.preventDefault();
     $.ajax({
-      url:"http://cdc-react.herokuapp.com/api/autores",
-      contentType:'application/json',
+      url: "http://cdc-react.herokuapp.com/api/autores",
+      contentType: 'application/json',
       dataType: 'json',
-      type:'post',
-      data: JSON.stringify({nome:this.state.nome, email:this.state.email, senha:this.state.senha}),
-      success:resposta =>{
-        this.setState({lista:resposta});
-        console.log('dados enviados');
+      type: 'post',
+      data: JSON.stringify({nome: this.state.nome, email: this.state.email, senha: this.state.senha}),
+      success: resposta => {
+        this.setState({lista: resposta});
       },
-      error:resposta=>{
+      error: resposta => {
         console.log('erro');
       }
     })
   }
 
-  setNome(evento){
-    this.setState({nome:evento.target.value});
+  setNome(evento) {
+    this.setState({nome: evento.target.value});
   }
-  setEmail(evento){
-  this.setState({email:evento.target.value});
+  setEmail(evento) {
+    this.setState({email: evento.target.value});
   }
-  setSenha(evento){
-this.setState({senha:evento.target.value});
+  setSenha(evento) {
+    this.setState({senha: evento.target.value});
   }
 
   render() {
@@ -83,24 +98,18 @@ this.setState({senha:evento.target.value});
           </div>
 
           <div className="content" id="content">
+          <FormularioAutor/>
+          <TabelaAutores/>
             <div className="pure-form pure-form-aligned">
-              <form className="pure-form pure-form-aligned" onSubmit={this.enviaForm} method="POST">
-                <div className="pure-control-group">
-                  <label htmlFor="nome">Nome</label>
-                  <input id="nome" type="text" name="nome" value={this.state.nome} onChange={this.setNome}/>
-                </div>
-                <div className="pure-control-group">
-                  <label htmlFor="email">Email</label>
-                  <input id="email" type="email" name="email" value={this.state.email} onChange={this.setEmail}/>
-                </div>
-                <div className="pure-control-group">
-                  <label htmlFor="senha">Senha</label>
-                  <input id="senha" type="password" name="senha" value={this.state.senha} onChange={this.setSenha}/>
-                </div>
-                <div className="pure-control-group">
-                  <label></label>
-                  <button type="submit" className="pure-button pure-button-primary">Gravar</button>
-                </div>
+              <form
+                className="pure-form pure-form-aligned"
+                onSubmit={this.enviaForm}
+                method="POST">
+                <InputCustomizado id="nome" type="text" name="nome" value={this.state.nome} onChange={this.setNome} label="Nome" />
+                <InputCustomizado id="email" type="email" name="email" value={this.state.email} onChange={this.setEmail} label="Email" />
+                <InputCustomizado id="senha" type="password" name="senha" value={this.state.senha} onChange={this.setSenha} label="Senha"/>
+                <Submit  type="submit" botao="Gravar"/>
+
               </form>
             </div>
             <div>
@@ -112,7 +121,10 @@ this.setState({senha:evento.target.value});
                   </tr>
                 </thead>
                 <tbody>
-                  {this.state.lista.map(autor=> {
+                  {this
+                    .state
+                    .lista
+                    .map(autor => {
                       return (
                         <tr key={autor.id}>
                           <td>{autor.nome}</td>
