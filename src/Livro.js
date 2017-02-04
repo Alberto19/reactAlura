@@ -17,15 +17,6 @@ class FormularioLivro extends Component {
         this.enviaForm = this
             .enviaForm
             .bind(this);
-        this.setTitulo = this
-            .setTitulo
-            .bind(this);
-        this.setPreco = this
-            .setPreco
-            .bind(this);
-        this.setAutorId = this
-            .setAutorId
-            .bind(this);
     }
 
     //cdc-react.herokuapp.com/api/autores
@@ -53,14 +44,8 @@ class FormularioLivro extends Component {
         })
     }
 
-    setTitulo(evento) {
-        this.setState({titulo: evento.target.value});
-    }
-    setPreco(evento) {
-        this.setState({preco: evento.target.value});
-    }
-    setAutorId(evento) {
-        this.setState({autorId: evento.target.value});
+    salvaAlteracao(nomeInput, evento) {
+        this.setState({[nomeInput]: evento.target.value});
     }
 
     render() {
@@ -75,19 +60,19 @@ class FormularioLivro extends Component {
                         type="text"
                         name="titulo"
                         value={this.state.titulo}
-                        onChange={this.setTitulo}
+                        onChange={this.salvaAlteracao.bind(this,'titulo')}
                         label="titulo"/>
                     <InputCustomizado
                         id="preco"
                         type="text"
                         name="preco"
                         value={this.state.preco}
-                        onChange={this.setPreco}
+                        onChange={this.salvaAlteracao.bind(this,'preco')}
                         label="preco"/>
 
                     <div className="pure-control-group">
                         <label htmlFor="autorId">Autor</label>
-                        <select id="autorId" name="autorId" value={this.state.autorId} onChange={this.setAutorId}>
+                        <select id="autorId" name="autorId" value={this.state.autorId} onChange={this.salvaAlteracao.bind(this,'autorId')}>
                             <option value="">Selecione</option>
                             {
                                 this.props.autores.map(autor =>{
@@ -148,7 +133,7 @@ export default class LivroBox extends Component {
         };
     }
 
-    componentWillMount() {
+    componentDidMount() {
         $.ajax({
             url: "http://cdc-react.herokuapp.com/api/livros",
             dataType: 'json',
