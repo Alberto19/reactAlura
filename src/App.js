@@ -14,7 +14,7 @@ class App extends Component {
 
         <div id="menu">
           <div className="pure-menu">
-            <Link className="pure-menu-heading" to="#">Nuflow</Link>
+            <Link className="pure-menu-heading" to="/">Nuflow</Link>
 
             <ul className="pure-menu-list">
               <li className="pure-menu-item">
